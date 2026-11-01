@@ -44,11 +44,35 @@ const photos: Photo[] = [
 const CARD_OFFSETS = [-3, -2, -1, 0, 1, 2, 3] as const;
 
 function App() {
+  const [showIntro, setShowIntro] = useState(true);
+  const [isIntroFading, setIsIntroFading] = useState(false);
   const [activePhoto, setActivePhoto] = useState(0);
   const [autoSlide, setAutoSlide] = useState(true);
   const [lightboxPhoto, setLightboxPhoto] = useState<number | null>(null);
   const hasPhotos = photos.length > 0;
   const photo = photos[activePhoto];
+
+  // 최초 접속 시 인트로 화면 노출 타이머 (2.2초 후 페이드아웃)
+  useEffect(() => {
+    const fadeTimer = window.setTimeout(() => {
+      setIsIntroFading(true);
+    }, 2200);
+
+    const removeTimer = window.setTimeout(() => {
+      setShowIntro(false);
+    }, 2800); // 페이드 애니메이션(600ms) 완료 후 언마운트
+
+    return () => {
+      window.clearTimeout(fadeTimer);
+      window.clearTimeout(removeTimer);
+    };
+  }, []);
+  
+  // 인트로 즉시 건너뛰기 핸들러
+  const handleSkipIntro = () => {
+    setIsIntroFading(true);
+    window.setTimeout(() => setShowIntro(false), 300);
+  };
 
   useEffect(() => {
     if (!autoSlide || photos.length < 2 || lightboxPhoto !== null) {
@@ -92,6 +116,62 @@ function App() {
   };
 
   return (
+    <>
+      {/* 최초 접속 시 보여줄 인트로 오버레이 (인라인 스타일로 크기 강제 고정) */}
+      {showIntro && (
+        <div
+          onClick={handleSkipIntro}
+          role="button"
+          tabIndex={0}
+          aria-label="인트로 건너뛰기"
+          style={{
+            position: "fixed",
+            inset: 0,
+            zIndex: 9999,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: "rgba(255, 252, 250, 0.96)",
+            backdropFilter: "blur(6px)",
+            cursor: "pointer",
+            transition: "opacity 0.6s ease, visibility 0.6s ease",
+            opacity: isIntroFading ? 0 : 1,
+            visibility: isIntroFading ? "hidden" : "visible",
+            userSelect: "none",
+          }}
+        >
+          {/* 폴라로이드 사진 액자 */}
+          <div
+            style={{
+              width: "240px",
+              maxWidth: "75vw",
+              backgroundColor: "#ffffff",
+              padding: "10px 10px 16px 10px",
+              borderRadius: "16px",
+              boxShadow: "0 16px 36px rgba(75, 59, 64, 0.22)",
+              border: "1px solid #f0dfd8",
+              transform: "rotate(-3deg)",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <img
+              src={`${import.meta.env.BASE_URL}images/sirokuma.jpeg`}
+              alt="환영 사진"
+              style={{
+                width: "100%",
+                height: "270px",
+                maxHeight: "45vh",
+                objectFit: "cover",
+                borderRadius: "10px",
+                display: "block",
+              }}
+            />
+          </div>
+        </div>
+      )}
+
     <main className="birthday-page">
       <div className="decoration decoration-star" aria-hidden="true">
         ✳
@@ -319,6 +399,7 @@ function App() {
         </div>
       )}
     </main>
+    </>
   );
 }
 

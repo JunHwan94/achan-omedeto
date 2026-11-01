@@ -70,24 +70,25 @@ body {
 /* 좌측 캐릭터: 제목 좌측 상단 뒤에 살짝 기울여 배치 */
 .header-char.char-left {
   top: -5%;
-  left: 2%;
-  width: clamp(4.5rem, 14vw, 7.5rem);
+  left: -20%;
+  width: 10rem;
   transform: rotate(-12deg);
 }
 
 /* 중앙 캐릭터: 제목 메인 글자 바로 뒤 중심에 아담하게 배치 */
 .header-char.char-center {
-  top: 90%;
-  left: 50%;
-  width: clamp(4rem, 12vw, 6.5rem);
+  top: 75%;
+  left: 10%;
+  width: 12rem;
   transform: translateX(-50%) scale(0.9);
   opacity: 0.35; /* 텍스트와 바로 겹치는 중앙 캐릭터는 가독성을 위해 투명도를 더 줌 */
 }
 
 /* 우측 캐릭터: 제목 우측 하단 뒤에 살짝 기울여 배치 */
 .header-char.char-right {
-  right: -30%;
-  width: 20rem;
+  top: -10%;
+  right: -35%;
+  width: 22rem;
   transform: rotate(14deg);
 }
 
@@ -704,5 +705,78 @@ body {
   .decoration-heart {
     top: 10rem;
     right: 3%;
+  }
+
+    /* ==========================================================================
+    최초 접속 시 인트로 오버레이 (사진 팝업 & 페이드아웃)
+    ========================================================================== */
+  .intro-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999; /* 모든 요소보다 위에 표시 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    background: rgba(255, 252, 250, 0.96);
+    backdrop-filter: blur(8px);
+    cursor: pointer;
+    transition: opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1),
+                visibility 0.6s ease;
+    user-select: none;
+  }
+
+  /* 페이드아웃 효과 */
+  .intro-overlay.fade-out {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  /* ==========================================================================
+   인트로 단독 사진 크기 보정 (문구 없이 사진만 띄울 때의 최적 규격)
+   ========================================================================== */
+
+  /* 인트로 카드 래퍼 */
+  .intro-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: introPopUp 0.65s cubic-bezier(0.34, 1.3, 0.64, 1) forwards;
+  }
+
+  /* 사진을 감싸는 액자 프레임 */
+  .intro-photo-frame {
+    box-sizing: border-box;
+    width: min(10vw, 5rem);       /* 모바일 75vw, PC 기준 최대 약 240px로 제한 */
+    max-height: 45vh;              /* 화면 높이의 절반을 넘지 않도록 제한 */
+    padding: 0.5rem;               /* 텍스트가 없으므로 상하좌우 균일한 액자 여백 */
+    border: 1px solid #f0dfd8;
+    border-radius: 1rem;
+    background: #ffffff;
+    box-shadow: 0 16px 36px rgba(75, 59, 64, 0.2);
+    transform: rotate(-3deg);
+    overflow: hidden;
+  }
+
+  /* 실제 이미지 */
+  .intro-photo {
+    display: block;
+    width: 100%;
+    height: auto;                  /* 원본 사진 비율을 찌그러짐 없이 그대로 유지 */
+    max-height: calc(45vh - 1rem); /* 프레임 패딩을 뺀 높이 안에서 자동 크롭 */
+    border-radius: 0.6rem;
+    object-fit: cover;
+  }
+
+  /* 카드 등장 팝업 애니메이션 */
+  @keyframes introPopUp {
+    0% {
+      transform: scale(0.82) translateY(24px);
+      opacity: 0;
+    }
+    100% {
+      transform: scale(1) translateY(0);
+      opacity: 1;
+    }
   }
 }
