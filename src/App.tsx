@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState, type AnimationEvent } from "react";
 import "./App.css";
 
 type Photo = {
@@ -7,19 +7,76 @@ type Photo = {
   caption: string;
 };
 
-const photos: Photo[] = [];
+const photos: Photo[] = [
+  { src: "/images/IMG_6051.JPG", alt: "아논쨩의 사진", caption: "2025년 11월 8일" },
+  { src: "/images/IMG_6336.JPG", alt: "아논쨩의 사진", caption: "2025년 11월 15일" },
+  { src: "/images/IMG_7349.JPG", alt: "아논쨩의 사진", caption: "2025년 12월 24일" },
+  { src: "/images/IMG_7361.JPG", alt: "아논쨩의 사진", caption: "2025년 12월 24일" },
+  { src: "/images/IMG_8233.JPG", alt: "아논쨩의 사진", caption: "2026년 2월 6일" },
+  { src: "/images/IMG_8616.JPG", alt: "아논쨩의 사진", caption: "2026년 2월 14일" },
+  { src: "/images/IMG_8781.JPG", alt: "아논쨩의 사진", caption: "2026년 2월 15일" },
+  { src: "/images/IMG_8803.JPG", alt: "아논쨩의 사진", caption: "2026년 2월 15일" },
+  { src: "/images/IMG_9615.JPG", alt: "아논쨩의 사진", caption: "2026년 3월 8일" },
+  { src: "/images/IMG_9863.JPG", alt: "아논쨩의 사진", caption: "2026년 3월 20일" },
+  { src: "/images/IMG_0200.jpeg", alt: "아논쨩의 사진", caption: "2026년 3월 31일" },
+  { src: "/images/IMG_0220.JPG", alt: "아논쨩의 사진", caption: "2026년 4월 4일" },
+  { src: "/images/IMG_0339.JPG", alt: "아논쨩의 사진", caption: "2026년 4월 5일" },
+  { src: "/images/IMG_1362.JPG", alt: "아논쨩의 사진", caption: "2026년 5월 2일" },
+  { src: "/images/IMG_1557.JPG", alt: "아논쨩의 사진", caption: "2026년 5월 17일" },
+  { src: "/images/IMG_1568.JPG", alt: "아논쨩의 사진", caption: "2026년 5월 17일" },
+  { src: "/images/IMG_2064.JPG", alt: "아논쨩의 사진", caption: "2026년 6월 6일" },
+  { src: "/images/IMG_2193.JPG", alt: "아논쨩의 사진", caption: "2026년 6월 13일" },
+  { src: "/images/IMG_3802.JPG", alt: "아논쨩의 사진", caption: "2026년 8월 14일" },
+  { src: "/images/IMG_4150.jpeg", alt: "아논쨩의 사진", caption: "2026년 8월 29일" },
+  { src: "/images/IMG_4658.jpeg", alt: "아논쨩의 사진", caption: "2026년 9월 6일" },
+  { src: "/images/IMG_5031.jpeg", alt: "아논쨩의 사진", caption: "2026년 9월 24일" },
+  { src: "/images/IMG_5205.jpeg", alt: "아논쨩의 사진", caption: "2026년 10월 2일" },
+  { src: "/images/IMG_5318.JPG", alt: "아논쨩의 사진", caption: "2026년 10월 10일" },
+];
 
 function App() {
   const [activePhoto, setActivePhoto] = useState(0);
+  const [pendingPhoto, setPendingPhoto] = useState<number | null>(null);
+  const [slideDirection, setSlideDirection] = useState<"next" | "previous">("next");
+  const [autoSlide, setAutoSlide] = useState(true);
   const hasPhotos = photos.length > 0;
   const photo = photos[activePhoto];
 
+  useEffect(() => {
+    if (!autoSlide || photos.length < 2 || pendingPhoto !== null) {
+      return;
+    }
+
+    const intervalId = window.setInterval(() => {
+      setSlideDirection("next");
+      setPendingPhoto((activePhoto + 1) % photos.length);
+    }, 1300);
+
+    return () => window.clearInterval(intervalId);
+  }, [activePhoto, autoSlide, pendingPhoto]);
+
+  const showPhoto = (index: number, direction: "next" | "previous") => {
+    if (pendingPhoto === null && index !== activePhoto) {
+      setSlideDirection(direction);
+      setPendingPhoto(index);
+    }
+  };
+
+  const finishSlide = (event: AnimationEvent<HTMLDivElement>) => {
+    if (event.target !== event.currentTarget || pendingPhoto === null) {
+      return;
+    }
+
+    setActivePhoto(pendingPhoto);
+    setPendingPhoto(null);
+  };
+
   const showPreviousPhoto = () => {
-    setActivePhoto((current) => (current - 1 + photos.length) % photos.length);
+    showPhoto((activePhoto - 1 + photos.length) % photos.length, "previous");
   };
 
   const showNextPhoto = () => {
-    setActivePhoto((current) => (current + 1) % photos.length);
+    showPhoto((activePhoto + 1) % photos.length, "next");
   };
 
   return (
@@ -55,19 +112,63 @@ function App() {
           </span>
         </div>
 
+        {hasPhotos && (
+          <label className="slideshow-toggle">
+            <input
+              type="checkbox"
+              checked={autoSlide}
+              onChange={(event) => setAutoSlide(event.target.checked)}
+            />
+            <span>자동 슬라이드</span>
+          </label>
+        )}
+
         <div className={`gallery-card${hasPhotos ? " has-photo" : ""}`}>
           <button
             className="gallery-arrow gallery-arrow-previous"
             type="button"
             onClick={showPreviousPhoto}
-            disabled={!hasPhotos}
+            disabled={!hasPhotos || pendingPhoto !== null}
             aria-label="이전 사진"
           >
             ‹
           </button>
 
           {hasPhotos ? (
-            <img className="gallery-image" src={photo.src} alt={photo.alt} />
+            <div className="gallery-image-viewport">
+              <div
+                className={`gallery-image-track${pendingPhoto !== null ? ` is-sliding slide-${slideDirection}` : ""}`}
+                onAnimationEnd={finishSlide}
+              >
+                {slideDirection === "previous" && pendingPhoto !== null ? (
+                  <>
+                    <img
+                      className="gallery-image"
+                      src={photos[pendingPhoto].src}
+                      alt={photos[pendingPhoto].alt}
+                    />
+                    <img
+                      className="gallery-image"
+                      src={photo.src}
+                      alt={photo.alt}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <img
+                      className="gallery-image"
+                      src={photo.src}
+                      alt={photo.alt}
+                    />
+                    <img
+                      className="gallery-image"
+                      src={photos[pendingPhoto ?? (activePhoto + 1) % photos.length].src}
+                      alt={photos[pendingPhoto ?? (activePhoto + 1) % photos.length].alt}
+                    />
+                  </>
+                )}
+              </div>
+            </div>
           ) : (
             <div className="gallery-placeholder">
               <span className="placeholder-sun" aria-hidden="true">
@@ -87,7 +188,7 @@ function App() {
             className="gallery-arrow gallery-arrow-next"
             type="button"
             onClick={showNextPhoto}
-            disabled={!hasPhotos}
+            disabled={!hasPhotos || pendingPhoto !== null}
             aria-label="다음 사진"
           >
             ›
@@ -103,7 +204,10 @@ function App() {
                   className={`pagination-dot${index === activePhoto ? " active" : ""}`}
                   key={item.src}
                   type="button"
-                  onClick={() => setActivePhoto(index)}
+                  onClick={() =>
+                    showPhoto(index, index > activePhoto ? "next" : "previous")
+                  }
+                  disabled={pendingPhoto !== null}
                   aria-label={`${index + 1}번째 사진 보기`}
                   aria-current={index === activePhoto ? "true" : undefined}
                 />
