@@ -779,4 +779,18 @@ body {
       opacity: 1;
     }
   }
+
+  /* ==========================================================================
+   백그라운드 YouTube 숨김 플레이어 (화면에는 안 보이지만 음악은 계속 재생)
+   ========================================================================== */
+  .hidden-player-container {
+    position: fixed;
+    top: -9999px;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+  }
 }
