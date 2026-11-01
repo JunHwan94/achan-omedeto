@@ -38,7 +38,57 @@ body {
 }
 
 .page-header {
+  position: relative;
   text-align: center;
+  z-index: 1;
+}
+
+/* 글자 텍스트들을 캐릭터보다 항상 위에 위치하도록 설정 */
+.eyebrow,
+.page-header h1,
+.intro {
+  position: relative;
+  z-index: 2;
+}
+
+/* 캐릭터들을 감싸는 컨테이너 (글자 뒤 배경 영역) */
+.header-characters {
+  position: absolute;
+  inset: 0;
+  z-index: 1; /* 텍스트(z-index: 2)보다 아래 */
+  pointer-events: none; /* 마우스 클릭이나 드래그 방해 방지 */
+}
+/* 3개 캐릭터 공통 스타일 */
+.header-char {
+  position: absolute;
+  object-fit: center;
+  opacity: 0.75; /* 글자가 선명하게 읽히도록 은은하게 조절 (취향에 따라 0.5~1.0 조절) */
+  filter: drop-shadow(0 8px 16px rgba(75, 59, 64, 0.12));
+  transition: transform 0.3s ease;
+}
+
+/* 좌측 캐릭터: 제목 좌측 상단 뒤에 살짝 기울여 배치 */
+.header-char.char-left {
+  top: -5%;
+  left: 2%;
+  width: clamp(4.5rem, 14vw, 7.5rem);
+  transform: rotate(-12deg);
+}
+
+/* 중앙 캐릭터: 제목 메인 글자 바로 뒤 중심에 아담하게 배치 */
+.header-char.char-center {
+  top: 90%;
+  left: 50%;
+  width: clamp(4rem, 12vw, 6.5rem);
+  transform: translateX(-50%) scale(0.9);
+  opacity: 0.35; /* 텍스트와 바로 겹치는 중앙 캐릭터는 가독성을 위해 투명도를 더 줌 */
+}
+
+/* 우측 캐릭터: 제목 우측 하단 뒤에 살짝 기울여 배치 */
+.header-char.char-right {
+  right: -30%;
+  width: 20rem;
+  transform: rotate(14deg);
 }
 
 .eyebrow {
@@ -471,15 +521,19 @@ body {
 .letter-card {
   box-sizing: border-box;
   width: min(100%, 33rem);
+  height: auto; /* 고정 높이 해제: 내용물에 맞춰 유연하게 확장 */
   margin-top: 1.4rem;
   padding: 1.8rem clamp(1.35rem, 6vw, 2.5rem) 2rem;
   border: 1px solid #f0dfd8;
   border-radius: 1.2rem;
+  /* 편지지가 길어져도 줄무늬가 끊김 없이 끝까지 반복되도록 설정 */
   background:
     linear-gradient(90deg, transparent 2.8rem, rgb(225 173 158 / 17%) 2.8rem, rgb(225 173 158 / 17%) calc(2.8rem + 1px), transparent calc(2.8rem + 1px)),
     repeating-linear-gradient(transparent 0 2.2rem, rgb(225 213 204 / 43%) 2.2rem calc(2.2rem + 1px)),
     #fffdfa;
+  background-attachment: local;
   box-shadow: 0 12px 34px rgb(130 86 76 / 6%);
+  overflow: visible;
 }
 
 .letter-top {
@@ -522,7 +576,10 @@ body {
   font-size: 1.02rem;
   font-weight: 500;
   line-height: 2.15; /* 한글과 일본어 한자/가나가 겹치지 않는 황금 줄 간격 */
-  word-break: keep-all;
+  /* 글이 카드 경계를 벗어나지 않도록 강제 줄바꿈 및 감싸기 */
+  white-space: pre-line; /* 긴 줄바꿈이나 띄어쓰기를 그대로 살리면서 자동 개행 */
+  word-break: break-word; /* 긴 단어나 영문/기호가 있어도 카드 밖으로 나가지 않게 개행 */
+  overflow-wrap: break-word;
 }
 
 .letter-copy p {

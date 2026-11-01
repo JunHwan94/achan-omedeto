@@ -101,6 +101,23 @@ function App() {
       </div>
 
       <header className="page-header">
+        <div className="header-characters" aria-hidden="true">
+          <img
+            src={`${import.meta.env.BASE_URL}images/hachiware.png`}
+            alt=""
+            className="header-char char-left"
+          />
+          <img
+            src={`${import.meta.env.BASE_URL}images/kitty.png`}
+            alt=""
+            className="header-char char-center"
+          />
+          <img
+            src={`${import.meta.env.BASE_URL}images/momonkani.png`}
+            alt=""
+            className="header-char char-right"
+          />
+        </div>
         <p className="eyebrow">
           <span aria-hidden="true">✷</span> A LITTLE BIRTHDAY SURPRISE{" "}
           <span aria-hidden="true">✷</span>
@@ -245,9 +262,7 @@ function App() {
             <br />
             僕がもっと優しくしなかったからごめんね、
             <br />
-            でも、いつも笑顔でいてくれて一緒に何でも食べてくれたし
-            <br />
-            どこでも楽しんでたから本当にありがとう、大好き❤️
+            でも、いつも笑顔でいてくれて一緒に何でも食べてくれたしどこでも楽しんでたから本当にありがとう、大好き❤️
             <br />
             これからも色々大変なことありそうだけど、
             <br />
