@@ -1,0 +1,383 @@
+#root {
+  min-height: 100vh;
+}
+
+.birthday-page {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  width: min(100%, 48rem);
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 4.5rem 1.5rem 2rem;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+}
+
+.page-header,
+.gallery-section,
+.letter-card,
+.page-footer {
+  position: relative;
+  z-index: 1;
+}
+
+.page-header {
+  text-align: center;
+}
+
+.eyebrow {
+  display: inline-flex;
+  margin: 0 0 1.1rem;
+  align-items: center;
+  gap: 0.6rem;
+  color: #d47778;
+  font-size: 0.7rem;
+  font-weight: 750;
+  letter-spacing: 0.16em;
+}
+
+.eyebrow span {
+  color: #e7af75;
+  font-size: 0.9rem;
+}
+
+.page-header h1 {
+  margin: 0;
+  color: #4b3b40;
+  font-family: "Palatino Linotype", "Book Antiqua", "Batang", serif;
+  font-size: clamp(2.7rem, 9vw, 4.3rem);
+  font-weight: 500;
+  letter-spacing: -0.07em;
+  line-height: 1.2;
+}
+
+.page-header h1 span {
+  color: #d47778;
+}
+
+.intro {
+  margin: 1rem 0 0;
+  color: #947f7e;
+  font-size: 0.95rem;
+  letter-spacing: 0.015em;
+}
+
+.gallery-section {
+  width: min(100%, 33rem);
+  margin-top: 3.2rem;
+  text-align: center;
+}
+
+.section-heading {
+  display: flex;
+  margin-bottom: 1rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+}
+
+.section-heading h2 {
+  margin: 0;
+  color: #70585a;
+  font-size: 1rem;
+  font-weight: 650;
+  letter-spacing: 0.035em;
+}
+
+.section-sparkle {
+  color: #e1ad72;
+  font-size: 0.8rem;
+}
+
+.gallery-card {
+  position: relative;
+  box-sizing: border-box;
+  display: grid;
+  min-height: 17rem;
+  padding: 0.75rem;
+  place-items: center;
+  border: 1px solid #f2e3dd;
+  border-radius: 1.4rem;
+  background: #fffdfb;
+  box-shadow: 0 16px 42px rgb(130 86 76 / 9%);
+}
+
+.gallery-card.has-photo {
+  min-height: 0;
+  padding: 0.65rem;
+}
+
+.gallery-placeholder {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  width: 100%;
+  min-height: 15.5rem;
+  padding: 2rem 1rem;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 1px dashed #e9c9bd;
+  border-radius: 1rem;
+  background:
+    radial-gradient(ellipse at 18% 20%, rgb(255 255 255 / 90%) 0 2%, transparent 2.5%),
+    radial-gradient(ellipse at 80% 75%, rgb(255 255 255 / 75%) 0 3%, transparent 3.5%),
+    linear-gradient(140deg, #f8e9df, #f9efea 53%, #f5e1dc);
+}
+
+.placeholder-sun {
+  position: absolute;
+  top: 1rem;
+  right: 1.5rem;
+  color: #eab976;
+  font-size: 2rem;
+}
+
+.placeholder-cake {
+  display: grid;
+  width: 5rem;
+  height: 5rem;
+  margin-bottom: 1rem;
+  place-items: center;
+  border: 1px solid rgb(255 255 255 / 80%);
+  border-radius: 50%;
+  background: rgb(255 255 255 / 55%);
+  font-size: 2.3rem;
+}
+
+.gallery-placeholder p {
+  margin: 0;
+  color: #765d5e;
+  font-size: 1rem;
+  font-weight: 650;
+}
+
+.placeholder-hint {
+  margin-top: 0.55rem;
+  color: #a58c89;
+  font-size: 0.78rem;
+}
+
+.gallery-image {
+  display: block;
+  width: 100%;
+  max-height: 30rem;
+  aspect-ratio: 4 / 3;
+  border-radius: 0.9rem;
+  object-fit: cover;
+}
+
+.gallery-arrow {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  display: grid;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0 0 0.2rem;
+  place-items: center;
+  transform: translateY(-50%);
+  border: 1px solid rgb(232 213 205 / 80%);
+  border-radius: 50%;
+  background: rgb(255 253 251 / 92%);
+  color: #8c6866;
+  cursor: pointer;
+  font: inherit;
+  font-size: 2rem;
+  line-height: 1;
+  transition: background 150ms ease, transform 150ms ease;
+}
+
+.gallery-arrow:hover:not(:disabled) {
+  transform: translateY(-50%) scale(1.06);
+  background: #fff;
+}
+
+.gallery-arrow:disabled {
+  opacity: 0.7;
+  cursor: default;
+}
+
+.gallery-arrow-previous {
+  left: -0.55rem;
+}
+
+.gallery-arrow-next {
+  right: -0.55rem;
+}
+
+.gallery-arrow:focus-visible,
+.pagination-dot:focus-visible {
+  outline: 3px solid #d99a91;
+  outline-offset: 3px;
+}
+
+.photo-caption {
+  margin: 1rem 0 0.65rem;
+  color: #806b69;
+  font-size: 0.92rem;
+}
+
+.gallery-pagination {
+  display: flex;
+  min-height: 0.65rem;
+  justify-content: center;
+  gap: 0.45rem;
+}
+
+.pagination-dot {
+  width: 0.55rem;
+  height: 0.55rem;
+  padding: 0;
+  border: 0;
+  border-radius: 1rem;
+  background: #e7d5ce;
+  cursor: pointer;
+  transition: width 150ms ease, background 150ms ease;
+}
+
+.pagination-dot.active {
+  width: 1.25rem;
+  background: #d47778;
+}
+
+.letter-card {
+  box-sizing: border-box;
+  width: min(100%, 33rem);
+  margin-top: 2.4rem;
+  padding: 1.7rem clamp(1.35rem, 6vw, 2.5rem) 1.8rem;
+  border: 1px solid #f0dfd8;
+  border-radius: 1.2rem;
+  background:
+    linear-gradient(90deg, transparent 2.8rem, rgb(225 173 158 / 17%) 2.8rem, rgb(225 173 158 / 17%) calc(2.8rem + 1px), transparent calc(2.8rem + 1px)),
+    repeating-linear-gradient(transparent 0 2.05rem, rgb(225 213 204 / 43%) 2.05rem calc(2.05rem + 1px)),
+    #fffdfa;
+  box-shadow: 0 12px 34px rgb(130 86 76 / 6%);
+}
+
+.letter-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.letter-stamp {
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  place-items: center;
+  border: 1px solid #e8b8ad;
+  border-radius: 50%;
+  color: #d47778;
+  font-size: 1.1rem;
+}
+
+.letter-date {
+  color: #b19a93;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+}
+
+.letter-card h2 {
+  margin: 1.2rem 0 0.9rem;
+  color: #685052;
+  font-family: "Palatino Linotype", "Book Antiqua", "Batang", serif;
+  font-size: 1.45rem;
+  font-weight: 500;
+}
+
+.letter-copy {
+  color: #796668;
+  font-size: 0.9rem;
+  line-height: 2.05;
+  word-break: keep-all;
+}
+
+.letter-copy p {
+  margin: 0 0 0.8rem;
+}
+
+.letter-signature {
+  margin: 1.2rem 0 0;
+  color: #a4837f;
+  font-family: "Palatino Linotype", "Book Antiqua", "Batang", serif;
+  font-size: 0.9rem;
+  text-align: right;
+}
+
+.letter-signature span {
+  color: #d47778;
+}
+
+.page-footer {
+  margin-top: 2rem;
+  color: #b49b95;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+}
+
+.page-footer span {
+  color: #d47778;
+}
+
+.decoration {
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.decoration-star {
+  top: 5rem;
+  left: 3%;
+  color: #e8ba82;
+  font-size: 2rem;
+  transform: rotate(-12deg);
+}
+
+.decoration-heart {
+  top: 12rem;
+  right: 4%;
+  color: #e8b9b1;
+  font-size: 1.4rem;
+  transform: rotate(12deg);
+}
+
+@media (max-width: 480px) {
+  .birthday-page {
+    padding: 3.6rem 1.1rem 1.5rem;
+  }
+
+  .gallery-section {
+    margin-top: 2.6rem;
+  }
+
+  .gallery-card {
+    min-height: 15rem;
+  }
+
+  .gallery-placeholder {
+    min-height: 13.5rem;
+  }
+
+  .letter-card {
+    margin-top: 2rem;
+    background:
+      repeating-linear-gradient(transparent 0 2.05rem, rgb(225 213 204 / 43%) 2.05rem calc(2.05rem + 1px)),
+      #fffdfa;
+  }
+
+  .decoration-star {
+    top: 3rem;
+    left: 5%;
+    font-size: 1.5rem;
+  }
+
+  .decoration-heart {
+    top: 10rem;
+    right: 3%;
+  }
+}

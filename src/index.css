@@ -1,0 +1,25 @@
+:root {
+  font-family:
+    "Hiragino Kaku Gothic ProN", "Yu Gothic", "Malgun Gothic", "Noto Sans KR",
+    system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #4b3b40;
+  background: #fcf6f1;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-optical-sizing: auto;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgb(255 255 255 / 84%), transparent 48rem),
+    #fcf6f1;
+}
+
+button {
+  -webkit-tap-highlight-color: transparent;
+}
