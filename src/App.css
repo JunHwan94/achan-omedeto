@@ -640,80 +640,67 @@ body {
    모바일 반응형 뷰
    ========================================================================== */
 @media (max-width: 480px) {
+  /* 1. 페이지 좌우 여백을 최소화하여 화면 전체 폭 확보 */
   .birthday-page {
-    padding: 3.6rem 1rem 1.5rem;
+    padding: 3.6rem 0.2rem 1.5rem;
     overflow-x: hidden;
   }
 
   .gallery-section {
     margin-top: 2.2rem;
     width: 100%;
-  }
-  
-	/* 모바일 외곽 박스 패딩 및 테두리 제거 */
-  .gallery-card {
-    min-height: 0;
     padding: 0;
-    border: none;
-    background: transparent;
-    box-shadow: none;
   }
 
-  /* 1. 스테이지 비율: 하단으로 카드가 내려앉을 공간 확보 */
+  /* 2. 스테이지 높이 확보 */
   .gallery-stage {
-    aspect-ratio: 1.2;
+    aspect-ratio: 1.15;
     overflow: visible;
   }
 
-  /* 2. 메인 카드: 70% 너비로 다시 시원하고 큼직하게 복원 */
+  /* 3. 메인 사진 크기 유지 */
   .gallery-card-item {
-    left: 15%;      /* 중앙 정렬: (100% - 70%) / 2 = 15% */
-    width: 70%;     /* 큼직한 메인 카드 크기 유지 */
+    left: 15%;
+    width: 70%;
     height: 84%;
     padding: 0.35rem 0.35rem 0.6rem;
   }
 
-  /* 0: 메인 사진 (가장 위에서 큼직하게 중앙 정렬) */
-  .gallery-card-item.card-pos-main {
-    z-index: 10;
-    transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
-  }
-
   /* --------------------------------------------------------------------------
-     양옆 대기 사진: X축으로 억지로 밀지 않고, 아래로 내리고 각도를 틀어 노출시킴
+     양쪽 대기 사진: 좌우로 넓게 펼쳐 양 끝까지 꽉 차게 노출
      -------------------------------------------------------------------------- */
 
-  /* 왼쪽 첫 번째 대기 사진 (메인 왼쪽 아래 모서리 밖으로 머리를 쏙 내밈) */
+  /* 왼쪽 첫 번째 대기 사진 (왼쪽으로 크게 펼침) */
   .gallery-card-item.card-pos-prev-1 {
     z-index: 8;
-    transform: translate3d(-18%, 28%, 0) scale(0.58) rotate(-12deg);
-    box-shadow: 0 8px 18px rgba(75, 59, 64, 0.2);
-    opacity: 0.95;
+    transform: translate3d(-38%, 18%, 0) scale(0.62) rotate(-8deg);
+    box-shadow: 0 8px 18px rgba(75, 59, 64, 0.22);
+    opacity: 0.98;
   }
 
-  /* 왼쪽 두 번째 대기 사진 (그 뒤에 더 기울어져 겹쳐짐) */
+  /* 왼쪽 두 번째 대기 사진 (화면 왼쪽 끝에 걸치도록 배치) */
   .gallery-card-item.card-pos-prev-2 {
     z-index: 6;
-    transform: translate3d(-28%, 24%, 0) scale(0.52) rotate(-20deg);
+    transform: translate3d(-56%, 12%, 0) scale(0.52) rotate(-16deg);
     opacity: 0.85;
   }
 
-  /* 오른쪽 첫 번째 대기 사진 (메인 오른쪽 아래 모서리 밖으로 머리를 쏙 내밈) */
+  /* 오른쪽 첫 번째 대기 사진 (오른쪽으로 크게 펼침) */
   .gallery-card-item.card-pos-next-1 {
     z-index: 8;
-    transform: translate3d(18%, 28%, 0) scale(0.58) rotate(12deg);
-    box-shadow: 0 8px 18px rgba(75, 59, 64, 0.2);
-    opacity: 0.95;
+    transform: translate3d(38%, 18%, 0) scale(0.62) rotate(8deg);
+    box-shadow: 0 8px 18px rgba(75, 59, 64, 0.22);
+    opacity: 0.98;
   }
 
-  /* 오른쪽 두 번째 대기 사진 (그 뒤에 더 기울어져 겹쳐짐) */
+  /* 오른쪽 두 번째 대기 사진 (화면 오른쪽 끝에 걸치도록 배치) */
   .gallery-card-item.card-pos-next-2 {
     z-index: 6;
-    transform: translate3d(28%, 24%, 0) scale(0.52) rotate(20deg);
+    transform: translate3d(56%, 12%, 0) scale(0.52) rotate(16deg);
     opacity: 0.85;
   }
 
-  /* 화살표: 메인 사진 좌우 테두리 끝에 깔끔하게 안착 */
+  /* 4. 화살표 컨트롤러: 메인 사진 좌우 경계면에 밀착 */
   .gallery-arrow {
     width: 2.2rem;
     height: 2.2rem;
@@ -722,11 +709,11 @@ body {
   }
 
   .gallery-arrow-previous {
-    left: 2%;
+    left: 3%;
   }
 
   .gallery-arrow-next {
-    right: 2%;
+    right: 3%;
   }
 
   .lightbox-image {
